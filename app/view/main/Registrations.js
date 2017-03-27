@@ -4,50 +4,30 @@
  * @email ritesh.patel@sencha.com
  */
 Ext.define('ThemerContestApp.view.main.Registrations', {
-    extend : 'Ext.grid.Grid',
-    store : 'Registration',
-    xtype : 'registrations',
-    autoScroll : true,
-    minHeight : 100,
-    columns : [
-        {
-            text : 'Name',
-            dataIndex : 'name',
-            flex : 1,
-            "cell": {
-                "xtype": "gridcell",
-                "ui": "new-registrations-grid"
-            }
-        },
-        {
-            text : 'Job Title',
-            dataIndex : 'title',
-            flex : 1,
-            hidden : Ext.os.is.phone ? true : false,
-            "cell": {
-                "xtype": "gridcell",
-                "ui": "new-registrations-grid"
-            }
-        },
-        {
-            text : 'Company',
-            dataIndex : 'company',
-            flex : 1,
-            "cell": {
-                "xtype": "gridcell",
-                "ui": "new-registrations-grid"
-            }
-        }
-    ],
-    itemConfig : {
-        ui: 'new-registrations-grid',
-        
-        "header": {
-            "ui": "new-registrations-grid"
-        },
-        "headerContainer": {
-            "ui": "new-registrations-grid"
-        }
-        
-    }
+    extend: 'Ext.Panel',
+    xtype: 'registrations',
+    autoScroll: true,
+    minHeight: 100,
+    layout: 'fit',
+    items: [{
+        docked: 'top',
+        xtype: 'panel',
+        height: 50,
+        html: '<div class="registration-container"><table class="registration-table-header">' +
+            '<tr><td><span class="reg-name-icon-cls"></span>Name</td><td>' +
+            '<span class="reg-job-title-icon-cls"></span>Job Title</td><td>' +
+            '<span class="reg-company-icon-cls"></span>Company</td></tr></table></div>'
+    }, {
+        xtype: 'list',
+        store: 'Registration',
+        scrollable: true,
+        cls:'registration-list-cls',
+        itemTpl: [
+            '<table class="registration-table-cls"><tr>',
+            '<td class="registration-name-cls">{name}</td>',
+            '<td>{job_title}</td>',
+            '<td>{company}</td>',
+            '</tr></table>'
+        ]
+    }]
 });

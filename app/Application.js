@@ -17,7 +17,9 @@ Ext.define('ThemerContestApp.Application', {
         'Event',
         'DoList',
         'Speaker',
-        'Attendee'
+        'Attendee',
+        'TimeField',
+        'SpeakerDetails'
     ],
     profiles : ['Phone', 'Tablet'],
 

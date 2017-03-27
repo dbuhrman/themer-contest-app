@@ -22,7 +22,7 @@ Ext.define('ThemerContestApp.model.Registration', {
     ],
     proxy : {
         type : 'ajax',
-        url : '../resources/data/registrations.json',
+        url : 'resources/data/registrations.json',
         reader : 'json'
     }
 });

@@ -4,24 +4,23 @@
  * @email ritesh.patel@sencha.com
  */
 Ext.define('ThemerContestApp.view.main.DaysToConference', {
-    extend : 'Ext.Panel',
-    xtype : 'confdays',
+    extend: 'Ext.Panel',
+    xtype: 'confdays',
     ui: 'days-to-conference',
-    header : true,
-    border : true,
-    title : 'Days To Conference',
-    layout : {
-        type : 'hbox',
-        align : 'center',
-        pack : 'center'
+    header: true,
+    cls: 'confdays-cls',
+    iconCls:'line-icon-cls',
+    title: '<div class="entitle-cls">To Conference</div>',
+    layout: {
+        type: 'hbox',
+        align: 'middle'
     },
-    items : [
-        {
-            html : '14',
-            style : {
-                fontWeight : 900,
-                fontSize : '38px'
-            }
+    items: [{
+        html: '<div class="conference-div-cls"><span class="medium-bold-cls">14</span> ' +
+            '<span class="startup-bold-cls">DAYS</span></div>',
+        style: {
+            fontWeight: 900,
+            fontSize: !Ext.os.is.Phone ? '90px' : '60px'
         }
-    ]
+    }]
 })

@@ -2124,6 +2124,7 @@ Ext.Microloader = Ext.Microloader || (function () {
                             Boot.load(Manifest.url);
                         }
                         else {
+                            Manifest.url = url;
                             Boot.fetch(Microloader.applyCacheBuster(url), function(result) {
                                 Microloader.setManifest(result.content);
                             });
@@ -2163,13 +2164,7 @@ Ext.Microloader = Ext.Microloader || (function () {
                 Microloader.urls = [];
                 Microloader.manifest = manifest;
                 Ext.manifest = Microloader.manifest.exportContent();
-                var progressive = Ext.manifest.progressive;
-                if (progressive && progressive.serviceWorker) {
-                    if ('serviceWorker' in navigator) {
-                        navigator.serviceWorker.register('./' + progressive.serviceWorker);
-                    }
-                }
-                
+
                 var assets = manifest.getAssets(),
                     cachedAssets = [],
                     asset, i, len, include, entry;

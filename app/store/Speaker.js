@@ -7,11 +7,11 @@ Ext.define('ThemerContestApp.store.Speaker', {
     extend : 'Ext.data.Store',
     autoLoad : true,
     model : 'ThemerContestApp.model.Speaker',
-    storeId : 'Speaker',
-    sorters : [
+    storeId : 'Speaker'
+    /*sorters : [
         {
             property : 'name',
             direction : 'ASC'
         }
-    ]
+    ]*/
 });

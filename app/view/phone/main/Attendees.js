@@ -4,40 +4,16 @@
  * @email ritesh.patel@sencha.com
  */
 Ext.define('ThemerContestApp.view.phone.main.Attendees', {
-    extend : 'Ext.grid.Grid',
-    store : 'Attendee',
-    xtype : 'attendees',
-    requires : ['Ext.grid.plugin.RowExpander'],
-    hideHeaders: true,
-    columns : [
-        {
-            text : 'Name',
-            dataIndex : 'name',
-            flex : 1,
-            "cell": {
-                "xtype": "gridcell",
-                "ui": "phone-attendees-grid"
-            }
-        }
-    ],
-    plugins : {
-        type : 'rowexpander'
-    },
-    itemConfig : {
-        body : {
-            tpl : [
-                '{job_title}<br />',
-                '<a href="mailto:{email}">{email}</a><br />'
-            ]
-        },
-        ui: 'phone-attendees-grid',
-        
-        "header": {
-            "ui": "phone-attendees-grid"
-        },
-        "headerContainer": {
-            "ui": "phone-attendees-grid"
-        }
-    }
-
+    extend: 'Ext.dataview.DataView',
+    store: 'Attendee',
+    xtype: 'attendees',
+    cls: 'phone-attendees-cls',
+    itemTpl: [
+        '<div class="attendee-block-cls">',
+            '<span class="attendee-name-cls"></span><span class="attendee-main-head-cls">{name}</span><br />',
+            '<span class="attendee-title-cls"></span><span class="attendee-sub-head-cls">{title}</span><br />',
+            '<span class="attendee-email-cls"></span><span class="attendee-sub-head-cls">{email}</span><br />',
+            '<span class="attendee-company-cls"></span><span class="attendee-sub-head-cls">{company}</span>',
+        '</div>'
+    ]
 });

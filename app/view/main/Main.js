@@ -4,43 +4,51 @@
  * @email ritesh.patel@sencha.com
  */
 Ext.define('ThemerContestApp.view.main.Main', {
-    extend : 'Ext.Container',
-    xtype : 'main',
-    reference : 'main',
-    controller : 'main',
-    viewModel : 'main',
-    layout : {
-        type : 'vbox',
-        align : 'stretch'
-    },
-    itemId : 'app-main',
-    items : [
-      {
-          xtype : 'container',
-          docked : 'top',
-          height : 50,
-          items : [
-            {
-                xtype : 'titlebar',
-                ui : 'main-header',
-                title : 'Conference Manager Pro',
-                docked : 'top',
-                titleAlign : 'left',
-                height : 50,
-                scrollable : {
-                  y: false
-                }
+    extend: 'Ext.Container',
 
-            }]
-      },
-        {
-            xtype : 'sidebar',
-            docked : 'left'
-        },
-        {
-            xtype : 'content',
-            reference : 'contentCard',
-            flex : 1
-        }
-    ]
+    xtype: 'main',
+
+    reference: 'main',
+
+    controller: 'main',
+    viewModel: 'main',
+
+    layout: {
+        type: 'vbox',
+        align: 'stretch'
+    },
+
+    initialize: function() {
+        this.callParent(arguments);
+
+        Ext.get('pre-loading').hide();
+    },
+
+    itemId: 'app-main',
+    cls: 'main-view-cls',
+    items: [{
+        xtype: 'container',
+        docked: 'top',
+        height: 63,
+        items: [{
+            xtype: 'titlebar',
+            ui: 'main-header',
+            title: '<div class="sencha-text-cls"><img class="sencha-logo-cls" src="resources/images/sencha-logo.ico">' +
+                '</span><b>Sencha</b></div>',
+            docked: 'top',
+            titleAlign: 'left',
+            height: 63,
+            scrollable: {
+                y: false
+            }
+        }]
+    }, {
+        xtype: 'sidebar',
+        docked: 'left'
+    }, {
+        xtype: 'content',
+        reference: 'contentCard',
+        flex: 1,
+        margin: '0 50px'
+    }]
 });

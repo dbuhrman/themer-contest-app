@@ -4,115 +4,118 @@
  * @email ritesh.patel@sencha.com
  */
 Ext.define('ThemerContestApp.view.main.Dashboard', {
-    extend : 'Ext.Container',
-    xtype : 'dashboard',
-    layout : {
-        type : 'vbox',
-        align : 'stretch'
+    extend: 'Ext.Container',
+    cls: 'cont-ground-cls',
+    xtype: 'dashboard',
+    layout: {
+        type: 'vbox',
+        align: 'stretch'
     },
-    padding : 10,
-    items : [
-        {
-            xtype : 'container',
-            flex : 1,
-            layout : {
-                type : 'hbox'
-            },
-            margin : '0 0 10 0',
-            items : [
-                {
-                    xtype : 'confdays',
-                    title : 'Days To Conference',
-                    width : '24%'
-                },
-                {
-                    xtype : 'spacer',
-                    width : '1%'
-                },
-                {
-                    xtype : 'panel',
-                    ui : 'new-registrations',
-                    width : '75%',
-                    title : 'New Registrations',
-                    border : true,
-                    layout : 'fit',
-                    items : [
-                      {
-                      xtype : 'registrations'
-                      }
-                    ]
-                  }
-                ]
+    requires: [
+        'Ext.chart.series.Pie',
+        'Ext.chart.PolarChart',
+        'Ext.chart.theme.SoftLimeGreen'
+    ],
+    padding: 10,
+    items: [{
+        xtype: 'container',
+        layout: {
+            type: 'hbox'
         },
-        {
-            xtype : 'panel',
-            ui : 'all-events',
-            flex : 1,
-            layout : {
-                type : 'hbox'
+        margin: '10 0 10 0',
+        items: [{
+            xtype: 'confdays',
+            height: 214,
+            width: '48%'
+        }, {
+            xtype: 'spacer',
+            width: '1%'
+        }, {
+            xtype: 'panel',
+            ui: 'total-registrations',
+            header: true,
+            iconCls:'line-icon-cls',
+            title: '<div class="entitle-cls">Total Registrations</div>',
+            width: '51%',
+            cls: 'total-reg-cls',
+            layout: {
+                type: 'hbox',
+                pack: 'right',
+                align: 'middle'
             },
-            margin : '0 0 10 0',
-            title : 'All Events',
-            border : true,
-            items : [
-                {
-                    xtype : 'events',
-                    header : true,
-                    width : '100%',
-                    border : true
+            items: [{
+                html: '<div class="total-reg-count-cls"><span class="hightlight-text-cls">736</span>/1000</div>'
+            }, {
+                xtype: 'polar',
+                width: 150,
+                height: 150,
+                margin: '0 21 0 0',
+                theme: 'softlimegreen',
+                store: {
+                    fields: ['count'],
+                    data: [{
+                        count: 264
+                    }, {
+                        count: 736
+                    }]
+                },
+                series: {
+                    type: 'pie',
+                    angleField: 'count'
                 }
-            ]
+            }]
+        }]
+    }, {
+        xtype: 'container',
+        flex: 1,
+        margin: '10 0 10 0',
+        layout: {
+            type: 'hbox',
+            align: 'stretch'
         },
-        {
-            xtype : 'container',
-            flex : 1,
-            layout : {
-                type : 'hbox',
-                align : 'stretch'
+        items: [{
+            xtype: 'panel',
+            ui: 'new-registrations',
+            width: '35%',
+            cls: 'new-reg-cls',
+            iconCls:'line-icon-cls',
+            title: '<div class="entitle-cls">New Registrations</div>',
+            layout: 'fit',
+            items: [{
+                xtype: 'registrations'
+            }]
+        }, {
+            xtype: 'spacer',
+            width: '1%'
+        }, {
+            xtype: 'panel',
+            ui: 'all-events',
+            flex: 1,
+            layout: {
+                type: 'hbox'
             },
-            items : [
-                {
-                    xtype : 'panel',
-                    ui : 'to-do-list',
-                    width : '75%',
-                    title : 'To Do List',
-                    border : true,
-                    layout : 'fit',
-                    items : [
-                      {
-                        xtype : 'dolist'
-                      }
-                    ]
-                },
-                {
-                    xtype : 'spacer',
-                    width : '1%'
-                },
-                {
-                    xtype : 'panel',
-                    ui : 'total-registrations',
-                    width : '24%',
-                    header : true,
-                    title : 'Total Registrations',
-                    width : '24%',
-                    border : true,
-                    layout : {
-                        type : 'hbox',
-                        align : 'center',
-                        pack : 'center'
-                    },
-                    items : [
-                        {
-                            xtype : 'progress',
-                            ui : 'progress-bar',
-                            value : 0.75,
-                            text : '736/1000 Registered',
-                            width : 250
-                        }
-                    ]
-                }
-            ]
-        }
-
-    ]
+            iconCls:'line-icon-cls',
+            title: '<div class="entitle-cls">All Events</div>',
+            cls: 'all-events-cls',
+            items: [{
+                xtype: 'events',
+                header: true,
+                width: '100%'
+            }]
+        }, {
+            xtype: 'spacer',
+            width: '1%'
+        }, {
+            xtype: 'panel',
+            ui: 'to-do-list',
+            cls: 'do-list-cls',
+            width: '24%',
+            iconCls:'line-icon-cls',
+            title: '<div class="entitle-cls">To Do List</div>',
+            layout: 'fit',
+            items: [{
+                xtype: 'dolist'
+            }]
+        }]
+    }]
 })
