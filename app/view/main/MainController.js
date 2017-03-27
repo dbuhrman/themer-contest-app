@@ -7,43 +7,41 @@ Ext.define('ThemerContestApp.view.main.MainController', {
     extend: 'Ext.app.ViewController',
 
     alias: 'controller.main',
-    listen : {
-        controller : {
-            '#' : {
-                unmatchedRoute : 'onRouteChange'
+    listen: {
+        controller: {
+            '#': {
+                unmatchedRoute: 'onRouteChange'
             }
         }
     },
     // custom events
-    control : {
-        '#' : {
-            menuitemselect : 'onMenuItemSelect',
-            speakerselect : 'onSpeakerSelect'
+    control: {
+        '#': {
+            menuitemselect: 'onMenuItemSelect',
+            speakerselect: 'onSpeakerSelect',
+            speakersdetailselect: 'onSpeakersDetailSelect'
         }
     },
 
-    lastView : null,
-    routes : {
-        ':node' : 'onRouteChange'
+    lastView: null,
+    routes: {
+        ':node': 'onRouteChange'
     },
 
     platformConfig: {
-		phone: {
-			platform: 'phone'
-		}
-	}, 
+        phone: {
+            platform: 'phone'
+        }
+    },
 
     /**
      * @method
      * init method. sets a default card.
      */
-    init : function () {
+    init: function() {
         if (this.platform !== 'phone') {
-            var navigation = this.lookupReference('navigation');
-            var store = navigation.getStore();
-            var node = store.findNode('xtype', 'dashboard');
-            navigation.setSelection(node);
-        } 
+            this.redirectTo('dashboard');
+        }
     },
 
     /**
@@ -52,35 +50,55 @@ Ext.define('ThemerContestApp.view.main.MainController', {
      * @param {Ext.list.Tree} tree - navigation tree
      * @param {Object} node - selected tree node
      */
-    onSelectionChange : function (tree, node) {
-        var to = node && node.get('xtype');
+    onSelectionChange: function(btn, e) {
+        var to = btn.name;
+
+        var sidebar = this.lookupReference('sidebar');
+        var navigation = this.lookupReference('navigation');
+
+        sidebar.navigatorOverlay.down('[name=' + to + ']').setPressed(true);
+        navigation.down('[name=' + to + ']').setPressed(true);
+
         if (to) {
-            this.redirectTo (to);
+            this.redirectTo(to);
         }
     },
-    
+
     /**
      * @method
      * Sets current view in the card
      * @param {string} xtype - component to be activated
      */
-    setCurrentView : function (xtype) {
+    setCurrentView: function(xtype) {
         if (this.platform !== 'phone') {
-            var refs = this.getReferences();
-            this.contentCard = refs.contentCard;
-            this.navigation = refs.navigation;
+            var refs = this.getReferences(),
+            dataview;
+            /*var mainView = this.getView();
+            this.contentCard = mainView.down('content');*/
 
-            var node = this.navigation.getStore().findNode('xtype', xtype);
-            item = this.contentCard.child('component[xtype=' + xtype + ']');
-            if (xtype === 'dashboard') {
-                item = this.contentCard.add({
-                    xtype : xtype
-                });
-            } else {
-                item = this.contentCard.add({xtype : xtype});
-            }
-            this.contentCard.setActiveItem(xtype);
-            this.navigation.setSelection(node);
+            (refs) ? (this.contentCard = refs.contentCard) : '';
+
+            // var node = this.navigation.getStore().findNode('xtype', xtype);
+            // item = this.contentCard.child('component[xtype=' + xtype + ']');
+            if(this.contentCard) {
+                item = this.contentCard.down(xtype);
+                if ( item ) {
+                    this.contentCard.setActiveItem(item);
+                    dataview = item;
+                    if(item.xtype != "allevents" && item.xtype != "attendees"){
+                       dataview = item.down('dataview');
+                    }
+                    if(dataview){
+                        dataview.getScrollable().scrollTo('top',0,false);
+                    }
+                }else{
+                    item = this.contentCard.add({
+                        xtype: xtype
+                    });
+                this.contentCard.setActiveItem(item);
+                }
+                
+            }            
         }
     },
 
@@ -89,12 +107,18 @@ Ext.define('ThemerContestApp.view.main.MainController', {
      * Sets phone view
      * @param {string} xtype - phone view component to be activated
      */
-    setPhoneView : function (xtype) {
+    setPhoneView: function(xtype, togglehide) {
         if (this.platform === 'phone') {
             item = this.contentCard.child('component[xtype=' + xtype + ']');
             this.contentCard.setActiveItem(xtype);
-            this.phoneBar.setTitle(xtype.toUpperCase());
-            Ext.Viewport.toggleMenu('left');
+            phoneTitleText = (xtype == 'dashboard') ? xtype.toUpperCase() : '<div class="toolbar-main-title-cls"><span class="line-toolbar-icon-cls"></span><span class="toolbar-title-cls">' + xtype.toUpperCase() + '</span></div>';
+            
+            this.phoneBar.setTitle(phoneTitleText);
+
+            if (!togglehide) {
+                Ext.Viewport.toggleMenu('left');
+            }
+
             var refs = this.getReferences();
         }
     },
@@ -104,7 +128,7 @@ Ext.define('ThemerContestApp.view.main.MainController', {
      * Listens for route change
      * @param {string} id - component xtype
      */
-    onRouteChange : function (id) {
+    onRouteChange: function(id) {
         this.setCurrentView(id);
     },
 
@@ -113,7 +137,7 @@ Ext.define('ThemerContestApp.view.main.MainController', {
      * Responds to phone menu item selection
      * @param {Ext.Button} button - clicked menu button reference
      */
-    onMenuItemSelect : function (btn) {
+    onMenuItemSelect: function(btn) {
         var item = btn.getText().toLowerCase();
         this.setPhoneView(item);
     },
@@ -122,13 +146,14 @@ Ext.define('ThemerContestApp.view.main.MainController', {
      * @method
      * Sets default view for the phones
      */
-    onPhoneViewRender : function (pnl) {
+    onPhoneViewRender: function(pnl) {
+        Ext.get('pre-loading').hide();
         var refs = this.getReferences();
         this.contentCard = refs.contentCard;
         this.phoneBar = refs.phonebar;
 
         var item = this.contentCard.add({
-            xtype : 'dashboard'
+            xtype: 'dashboard'
         });
         this.phoneBar.setTitle('DASHBOARD');
         this.contentCard.setActiveItem(item);
@@ -140,28 +165,75 @@ Ext.define('ThemerContestApp.view.main.MainController', {
      * @param {Object} record - selected list record
      * @param {Ext.Button} btn - item disclosure button
      */
-    onSpeakerSelect : function (record, btn) {
+    onSpeakerSelect: function(record, btn) {
         if (!this.speakerDetail) {
             this.speakerDetail = this.contentCard.add({
-                xtype : 'speakerdetail'
+                xtype: 'speakerdetail'
             });
         }
-
-        this.contentCard.setActiveItem(this.speakerDetail);
+        var name=record.get('name');
+        job_title= record.get('job_title');
+        session_description= record.get('session_description');
         var refs = this.getReferences();
-        var bioCard = refs.bioCard;
-        var sessionCard = refs.sessionCard;
+        var navToolbar=refs.phonebar;
+        navToolbar.hide();
+        this.contentCard.setActiveItem(this.speakerDetail);
+        refs.sessionBio.setData({
+            session_description: record.get('session_description')
+        });
+        refs.speakersName.setData({
+            name: record.get('name')
+        });
+        refs.speakersJob.setData({
+            job_title: record.get('job_title')
+        });
+        if (record.get('sessiondetails')) {
+            var store = Ext.create('Ext.data.Store', {
+                data: record.get('sessiondetails')
+            });
+            refs.speakerDetailsMobileView.setStore(store);
+        } else {
+            Ext.Msg.alert("No Data Found");
+        } 
+        //refs.speakerDetailsMobileView.setData(record.get('sessiondetails'));
 
-        bioCard.setData({
-                            name : record.get('name'),
-                            job_title : record.get('job_title'),
-                            bio : record.get('bio')
-                        });
-        sessionCard.setData({
-                            session_title : record.get('session_title'),
-                            name : record.get('name'),
-                            session_description : record.get('session_description')
-                        });
+    },
+
+    onSpeakersDetailSelect: function(record, btn) {
+        if (!this.speakerDetailView) {
+            this.speakerDetailView = this.contentCard.add({
+                xtype: 'speakerdetailview'
+            });
+        }
+        var refs = this.getReferences();
+        if (record.get('sessiondetails')) {
+            this.contentCard.setActiveItem(this.speakerDetailView);
+            var store = Ext.create('Ext.data.Store', {
+                data: record
+            });
+            refs.speakerDetailsDataView.setStore(store);
+        } else {
+            Ext.Msg.alert("No Data Found");
+        }
+        //refs.speakerDetailsDataView.setData(record);
+    },
+
+    onSpeakerViewCancelBtn: function(btn, e) {
+        var mainViewModel = this.getViewModel();
+
+        mainViewModel.get('speakerOverlay').hide();
+    },
+
+    onSpeakerViewAddBtn: function(btn, e) {
+        this.onSpeakerViewCancelBtn(btn, e);
+    },
+
+    onSpeakerBackButtonTap: function(btn, e) {
+        var ref=this.getReferences();
+        Ext.os.is.Phone ? this.setPhoneView('speakers', true) : this.setCurrentView('speakers');
+        if(Ext.os.is.Phone){
+            ref.phonebar.show();
+        }
         
     }
 });

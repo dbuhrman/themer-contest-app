@@ -4,32 +4,62 @@
  * @email ritesh.patel@sencha.com
  */
 Ext.define('ThemerContestApp.view.main.SpeakerDetail', {
-    extend : 'Ext.tab.Panel',
-    xtype : 'speakerdetail',
-    reference : 'speakerdetail',
-    tabBarPosition : 'bottom',
-    tabBar: {
-        "ui": "speaker-tabs"
-    },
-    items : [
-        {
-            title : 'Bio',
-            xtype: 'panel',
-            iconCls : 'x-fa fa-graduation-cap',
-            tpl : '<span style="font-weight:900;font-size:18px;margin:10px;">{name}</span><br /><span style="color:#404040;margin:10px;">{job_title}</span><hr /><span style="padding:10px;display:block">{bio}</span>',
-            itemId : 'bioCard',
-            reference : 'bioCard',
-            ui : 'bio-tab'
-        },
-        {
-            title : 'Session',
-            xtype: 'panel',
-            iconCls : 'x-fa fa-bell-o',
-            tpl : '<span style="font-weight:900;font-size:18px;margin:10px;">{session_title}</span><br /><span style="color:#404040;margin:10px;">By {name}</span><hr /><span style="padding:10px;display:block">{session_description}</span>',
-            itemId : 'sessionCard',
-            reference : 'sessionCard',
-            ui : 'session-tab'
+    extend: 'Ext.Container',
+    xtype: 'speakerdetail',
+    reference: 'speakerdetail',
+    items: [{
+        xtype: 'container',
+        height: 50,
+        layout: 'hbox',
+        items: [{
+            xtype: 'button',
+            refrence: 'navigationBack',
+            itemId: 'navBackButton',
+            cls: 'speakers-back-button-cls',
+            width:50,
+            iconCls: 'x-fa fa-chevron-left',
+            listeners: {
+                tap: 'onSpeakerBackButtonTap'
+            }
+        }, {
+            xtype: 'label',
+            reference: 'speakersName',
+            tpl: '{name}',
+            cls: 'speakers-name-cls'
+        }]
+    }, {
+        xtype: 'label',
+        tpl: '{job_title}',
+        reference : 'speakersJob',
+        cls: 'speakers-designation-cls'
+    }, {
+        xtype: 'label',
+        reference: 'sessionBio',
+        cls : 'speakers-bio-cls',
+        tpl: '{session_description}'
+    }, {
+        xtype: 'dataview',
+        reference: 'speakerDetailsMobileView',
+        cls: 'speaker-session-cls',
+        itemTpl: [
+            '<div class="session-block-cls">',
+            '<div class="event-icon-cls"></div>',
+            '<div class="session-title-cls">{session_title}</div>',
+            '</div>',
+            '<div class="session-block-cls">',
+            '<div class="date-icon-cls"></div>',
+            '<div class="session-text-cls">{date}</div>',
+            '</div>',
+            '<div class="session-block-cls">',
+            '<div class="time-icon-cls"></div>',
+            '<div class="session-text-cls">{time}</div>',
+            '</div>',
+            '<div class="session-description-cls">{session_description}',
+            '</div>'
+        ],
+        flex: 1,
+        scrollable: 'y',
+        height: 470
 
-        }
-    ]
+    }]
 })

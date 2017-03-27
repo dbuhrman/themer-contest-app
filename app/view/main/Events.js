@@ -4,59 +4,37 @@
  * @email ritesh.patel@sencha.com
  */
 Ext.define('ThemerContestApp.view.main.Events', {
-    extend : 'Ext.grid.Grid',
-    store : 'Event',
-    xtype : 'events',
-    columns : [
-        {
-            text : 'Session Title',
-            dataIndex : 'title',
-            flex : 1,
-            "cell": {
-                "xtype": "gridcell",
-                "ui": "all-events-grid"
-            }
-        },
-        {
-            text : 'Track',
-            dataIndex : 'track',
-            flex : 1,
-            hidden : Ext.os.is.phone ? true : false,
-            "cell": {
-                "xtype": "gridcell",
-                "ui": "all-events-grid"
-            }
-        },
-        {
-            text : 'Day & Time',
-            dataIndex : 'time',
-            flex : 1,
-            hidden : Ext.os.is.phone ? true : false,
-            "cell": {
-                "xtype": "gridcell",
-                "ui": "all-events-grid"
-            }
-        },
-        {
-            text : 'Location',
-            dataIndex : 'location',
-            flex : 1,
-            hidden : Ext.os.is.phone ? true : false,
-            "cell": {
-                "xtype": "gridcell",
-                "ui": "all-events-grid"
-            }
-        }
-    ],
-    itemConfig : {
-        ui: 'all-events-grid',
-        
-        "header": {
-            "ui": "all-events-grid"
-        },
-        "headerContainer": {
-            "ui": "all-events-grid"
-        }
-        
-    }
+    extend: 'Ext.dataview.List',
+    store: 'Event',
+    xtype: 'events',
+    height: '100%',
+    width: '100%',
+    cls:'events-list-cls',
+    fullscreen: true,
+    scrollable: 'y',
+    itemTpl: [
+        '<div class="events-container-cls">',
+        '<div class="events-title-cls">',
+        '<div class="event-icon-cls"></div>',
+        '<div class="events-title-text">{title}</div>',
+        '</div>',
+        '<div class="events-details-cls">',
+        '<table class="events-details-table">',
+        '<tr>',
+        '<td class="date-icon-cls"></td>',
+        '<td>{date}</td>',
+        '</tr>',
+        '<tr>',
+        '<td class="time-icon-cls"></td>',
+        '<td>{time}</td>',
+        '</tr>',
+        '</table>',
+        '</div>',
+        '<div class="events-border-cls"></div>',
+        '<div class="events-footer-cls">',
+        '<div class="location-icon-cls"></div>',
+        '<div class="location-text-cls">{location}</div>',
+        '</div>',
+        '</div>'
+    ]
 });

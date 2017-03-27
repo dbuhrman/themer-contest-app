@@ -21,7 +21,8 @@
      * application resides (the same folder in which this file is located).
      */
     "classpath": [
-        "app"
+        "app",
+        "util"
     ],
 
     /**
@@ -52,7 +53,7 @@
      * The name of the theme for this application.
      */
 
-    "theme": "theme-triton",
+    "theme": "theme-summergreen",
 
 
     /**
@@ -65,7 +66,8 @@
      *      ]
      */
     "requires": [
-        "font-awesome"
+        "font-awesome",
+        "charts"
     ],
 
     /**
@@ -449,7 +451,8 @@
          * List of items in the CACHE MANIFEST section
          */
         "cache": [
-            "index.html"
+            "index.html",
+            "resources/images/pre-loader.gif"
         ],
         /**
          * List of items in the NETWORK section

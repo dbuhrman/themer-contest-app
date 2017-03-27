@@ -14,11 +14,12 @@ Ext.define('ThemerContestApp.model.Speaker', {
         {"name" : "bio"},
         {"name" : "photo"},
         {"name" : "time"},
-        {"name" : "date"}
+        {"name" : "date"},
+        {"name" : "image"}
     ],
     proxy : {
         type : 'ajax',
-        url : '../resources/data/speaker-session.json',
+        url : 'resources/data/speaker-session.json',
         reader : 'json'
     }
 })

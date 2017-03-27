@@ -4,37 +4,30 @@
  * @email ritesh.patel@sencha.com
  */
 Ext.define('ThemerContestApp.view.main.DoList', {
-    extend : 'Ext.grid.Grid',
-    store : 'DoList',
-    xtype : 'dolist',
-    autoScroll : true,
-    hideHeaders : true,
-    columns : [
-        {
-            xtype : 'checkcolumn',
-            dataIndex : 'done',
-            editor : {
-                xtype : 'checkbox'
-            }
-        },
-        {
-            dataIndex : 'name',
-            flex : 1,
-            "cell": {
-                "xtype": "gridcell",
-                "ui": "all-dolist-grid"
+    extend: 'Ext.List',
+    store: 'DoList',
+    xtype: 'dolist',
+    autoScroll: true,
+    hideHeaders: true,
+    cls: 'dolist-cls',
+    itemTpl: [
+        '<span class="{[this.getIconData(values)]}"></span> {name} <div class="done-status {[this.getDoneCls(values)]}"></div>', {
+            getIconData: function(values) {
+                return Utility.getTodoIcons(values.name);
+            },
+            getDoneCls: function(values) {
+                if (values.done) {
+                    return "done-cls";
+                } else {
+                    return "notdone-cls";
+                }
             }
         }
     ],
-    itemConfig : {
-        ui: 'all-dolist-grid',
-        
-        "header": {
-            "ui": "all-dolist-grid"
-        },
-        "headerContainer": {
-            "ui": "all-dolist-grid"
+    listeners: {
+        itemtap: function(me, index, target, record, e, eOpts) {
+            var donevalue = !record.data.done;
+            record.set('done', donevalue);
         }
-        
     }
 });

@@ -23,7 +23,7 @@ Ext.define('ThemerContestApp.model.Attendee', {
     
     proxy : {
         type : 'ajax',
-        url : '../resources/data/attendees.json',
+        url : 'resources/data/attendees.json',
         reader : 'json'
     }
 });

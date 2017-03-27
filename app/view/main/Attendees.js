@@ -4,148 +4,86 @@
  * @email ritesh.patel@sencha.com
  */
 Ext.define('ThemerContestApp.view.main.Attendees', {
-    extend : 'Ext.grid.Grid',
-    xtype : 'attendees',
-    store : 'Attendee',
-    border : true,
-    items : [
-        {
-            xtype : 'toolbar',
-            ui : 'attendees-toolbar',
-            title : 'Attendees',
-            height : 60,
-            docked : 'top',
-            items : [
-                '->',
-                {
-                    iconCls : 'x-fa fa-plus',
-                    ui:'add-attendee-button',
-                    handler : function (btn) {
-                        if (!this.overlay) {
-                            this.overlay = Ext.Viewport.add({
-                                xtype : 'panel',
-                                floated : true,
-                                modal : true,
-                                hideOnMaskTap : true,
-                                width : 320,
-                                height : 210,
-                                autoScroll : true,
-                                showAnimation : {
-                                    type : 'popIn',
-                                    duration : 250,
-                                    easing : 'ease-out'
-                                },
-                                hideAnimation: {
-                                    type: 'popOut',
-                                    duration: 250,
-                                    easing: 'ease-out'
-                                },
-                                centered: true,
-                                items : [
-                                    {
-                                        xtype : 'formpanel',
-                                        padding : 10,
-                                        title : 'Add Attendee',
-                                        defaults : {
-                                            labelWidth : 120
-                                        },
-                                        items : [
-                                            {
-                                                xtype : 'toolbar',
-                                                docked : 'bottom',
-                                                items : [
-                                                    '->',
-                                                    {
-                                                        text : 'Cancel',
-                                                        iconCls : 'x-fa fa-times',
-                                                        scope : this,
-                                                        handler : function () {
-                                                            this.overlay.hide();
-                                                        }
-                                                    },
-                                                    {
-                                                        text : 'Add',
-                                                        scope : this,
-                                                        iconCls : 'x-fa fa-plus',
-                                                        handler : function () {
-                                                            this.overlay.hide();
-                                                        }
-                                                    }
-                                                ]
-                                            },
-                                            {
-                                                xtype : 'textfield',
-                                                label : 'Name',
-                                                ui:'add-attendee-name-textfield'
-                                            },
-                                            {
-                                                xtype : 'textfield',
-                                                label : 'Job Title',
-                                                ui:'add-attendee-title-textfield'
-                                            },
-                                            {
-                                                xtype : 'textfield',
-                                                label : 'Email',
-                                                ui:'add-attendee-email-textfield'
-                                            }
-                                        ]
-                                    }
-                                ]
-                            });
-                        }
-                        this.overlay.show();
-                    }
+    extend: 'Ext.Container',
+    xtype: 'attendees',
+    layout: {
+        type: 'vbox'
+    },
+    scrollable: true,
+
+    items: [{
+        xtype: 'toolbar',
+        ui: 'attendees-toolbar',
+        cls: 'toolbar-ground-cls',
+        title: '<div class="toolbar-main-title-cls"><span class="line-toolbar-icon-cls"></span><span class="toolbar-title-cls">Attendees</span></div>',
+        height: 70,
+        margin: '10 0 10 25',
+        docked: 'top',
+        items: [
+            '->', {
+                xtype: 'polygonbutton',
+                text: 'Add New',
+                margin: '0 20 10',
+                iconCls: 'plus-icon-cls',
+                handler: function(btn) {
+                    Ext.Viewport.add({
+                        xtype: 'panel',
+                        floated: true,
+                        hideOnMaskTap: true,
+                        floatComponent: true,
+                        width: '100%',
+                        height: '100%',
+                        autoScroll: true,
+                        cls:'floated-win-cls', 
+                        modal: true,
+                        showAnimation: {
+                            type: 'fadeIn',
+                            duration: 250,
+                            easing: 'ease-out'
+                        },
+                        hideAnimation: {
+                            type: 'fadeOut',
+                            duration: 250,
+                            easing: 'ease-out'
+                        },
+                        viewModel: {
+                            data: {
+                                titleText: 'Add Attendee',
+                                viewName: 'attendeeOverlay'
+                            }
+                        },
+                        centered: true,
+                        items: [{
+                            xtype: 'addrelativewindow'
+                        }]
+                    }).show();
                 }
-            ]
-        }
-    ],
-    columns : [
-        {
-            text : 'Name',
-            dataIndex : 'name',
-            flex : 1,
-            "cell": {
-                "xtype": "gridcell",
-                "ui": "attendees-grid"
             }
-        },
-        {
-            text : 'Job Title',
-            dataIndex : 'title',
-            flex : 1,
-            "cell": {
-                "xtype": "gridcell",
-                "ui": "attendees-grid"
-            }
-        },
-        {
-            text : 'Company',
-            dataIndex : 'company',
-            flex : 1,
-            "cell": {
-                "xtype": "gridcell",
-                "ui": "attendees-grid"
-            }
-        },
-        {
-            text : 'Email',
-            dataIndex : 'email',
-            flex : 1,
-            "cell": {
-                "xtype": "gridcell",
-                "ui": "attendees-grid"
-            }
-        }
-    ],
-    itemConfig : {
-        ui: 'attendees-grid',
-        
-        "header": {
-            "ui": "attendees-grid"
-        },
-        "headerContainer": {
-            "ui": "attendees-grid"
-        }
-        
-    }
+        ]
+    }, {
+        xtype: 'dataview',
+        store: 'Attendee',
+        cls: 'attendee-view-cls',
+        border: true,
+        itemTpl: [
+            '<div class="attendee-block-cls">',
+            '<div class="attendee-title-div-cls">',
+            '<span class="attendee-name-cls"></span>',
+            '<span class="attendee-main-head-cls">{name}</span>',
+            '</div>',
+            '<div class="attendee-div-cls">',
+            '<span class="attendee-title-cls"></span>',
+            '<span class="attendee-sub-head-cls">{title}</span>',
+            '</div>',
+            '<div class="attendee-div-cls">',
+            '<span class="attendee-email-cls"></span>',
+            '<span class="attendee-sub-head-cls">{email}</span>',
+            '</div>',
+            '<div class="company-highlight-cls">',
+            '<span class="attendee-company-cls"></span>',
+            '<span class="attendee-sub-head-cls">{company}</span>',
+            '</div>',
+            '</div>'
+        ]
+    }]
 });

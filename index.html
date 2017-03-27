@@ -7,6 +7,26 @@
 
     <title>ThemerContestApp</title>
 
+    <style type="text/css">
+        div#pre-loading {
+            width: 100%;
+            height: 100%;
+            margin: auto;
+            cursor: wait;
+            z-index: 1000;
+            background: #fff;
+            position: absolute;
+        }
+        div#pre-content {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-image: url(resources/images/pre-loader.gif);
+        }
+    </style>
+
     <!--
     <script type="text/javascript">
         var Ext = Ext || {}; // Ext namespace won't be defined yet...
@@ -47,8 +67,14 @@
     -->
     
     <!-- The line below must be kept intact for Sencha Cmd to build your application -->
+    <link href="resources/images/sencha-logo.ico" type="image/x-icon" rel="icon" />
     <script id="microloader" data-app="37790d52-08cc-482e-b710-9d333268dc76" type="text/javascript" src="bootstrap.js"></script>
 
 </head>
-<body></body>
+<body>
+    <div id="pre-loading">
+        <div id="pre-content" class="loader">
+        </div>
+    </div>
+</body>
 </html>
